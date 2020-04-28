@@ -1,0 +1,285 @@
+ drop database umuzi;
+   
+   create database umuzi;
+    
+   \c umuzi
+
+
+  create table customer (customer id serial not null primary key,
+                                        
+                           first_name varchar(50) not null,
+                                         
+                           last_name varchar(50) not null,
+                                         
+                           gender varchar(6) not null,
+                                         
+                           address varchar(200) not null,
+                                         
+                           phone varchar(20) not null,
+                                         
+                           email varchar(100),
+                           city varchar(20) not null,
+ 
+                           country varchar(50) not null);
+
+
+    create table employees(employee id serial primary key not null,
+                                     
+                           first_name varchar(50) not null,
+                                      
+                           last_name varchar(50) not null,
+                                      
+                           email varchar(100),
+                                      
+                           job_title varchar(50) not null);
+
+
+   create table orders(order id serial primary key not null,
+                              
+                       product_id foreign key not null,
+                               
+                       payment_id foreign key not null,
+                               
+                       fulfilled_by_employee_id foreign key not null,
+                               
+                       date_required date not null,
+                               
+                       date_shipped date,
+                               
+                       status varchar(20) not null);
+
+
+   create table payments(customer_id foreign key not null,
+                                     
+                         payment_id foreign key not null,
+                                     
+                         payment_date date not null,
+                                     
+                         amount numeric(20) not null);
+
+
+   create table orders(id serial primary key not null,
+                               
+                       product_id foreign key not null,
+                               
+                       payment_id foreign key not null,
+                               
+                       fulfilled_by_employee_id foreign key not null,
+                               
+                       date_required date not null,
+                              
+                       date_shipped date,
+                              
+                       status varchar(20) not null);
+
+  insert into customer 
+    (first_name,last_name,gender,address,phone,email,city,country) values 
+    ('John','Hibert','Male','284 chaucer st','084789657','john@gmail.com','Johannesburg','South Africa');
+
+    insert into customer 
+    (first_name,last_name,gender,address,phone,email,city,country) 
+    values ('Thando','Sithole','Female','240 Sect 1','0794445584','thando@gmail.com','Cape Town','South Africa');
+
+   insert into customer 
+   (first_name,last_name,gender,address,phone,email,city,country) 
+   values ('Leon','Glen','Male','81 Everton Rd,Gillits','0820832830','Leon@gmail.com','Durban','South Africa');
+
+
+    insert into customer
+    (first_name,last_name,gender,address,phone,email,city,country) 
+    values ('Charl','Muller','Male','290A Dorset Ecke','+44856872553','Charl.muller@yahoo.com','Berlin','Germany');
+
+
+    insert into customer
+    (first_name,last_name,gender,address,phone,email,city,country) 
+    values ('Julia','Stein','Female','2 Wernerring','+448672445058','Js234@yahoo.com','Frankfurt','Germany');
+
+
+insert into employees 
+(first_name,last_name,email,job_title) 
+values ('Kani','Matthew','mat@gmail.com','manager');
+
+
+insert into employees 
+(first_name,last_name,email,job_title) 
+values ('Lesly','Cronje','LesC@gmail.com','Clerk');
+
+
+insert into employees (first_name,last_name,email,job_title) 
+values ('Gideon','Maduku','m@gmail.com','Accountant');
+
+insert into orders 
+(product_id,payment_id,fulfilled_by_employee_id,date_required,status) 
+values (1,1,2,'05-09-2018','Not shipped');
+
+
+insert into orders (product_id,payment_id,fulfilled_by_employee_id,date_required,date_shipped,status) 
+values (1,2,2,'04-09-2018','04-09-2018','Shipped');
+
+
+insert into orders (product_id,payment_id,fulfilled_by_employee_id,date_required,status) 
+values (3,3,3,'05-09-2018','Not shipped');
+
+insert into payments 
+(customer_id,payment_id,payment_date,amount) 
+values (1,1,'01-09-2018','150.75');
+
+
+insert into payments (customer_id,payment_id,payment_date,amount) 
+values (5,2,'03-09-2018','150.75');
+
+
+insert into payments (customer_id,payment_id,payment_date,amount) 
+values (4,3,'03-09-2018','700.60');
+
+insert into products 
+(product_name,description,buy_price) 
+values ('Harley Davidson Chopper','This replica features working kickstand,front suspension, gear-shift lever','150.75');
+
+
+insert into products (product_name,description,buy_price) 
+values ('Classic Car','Turnable front wheels, steering function','550.75');
+
+
+insert into products (product_name,description,buy_price) 
+values ('Sports car','Turnable front wheels, steering function','700.60');
+
+
+ select * 
+
+   from customer;
+
+
+
+ select * 
+
+   from employees;
+
+
+
+ select first_name 
+
+   from customer;
+
+ 
+select *
+ 
+   from customer 
+
+   where id = 1;
+
+  update customer 
+
+   set first_name = 'Lerato' , last_name = 'Mabitso' 
+
+   where id = 1;
+
+   select * 
+
+   from customer;
+
+
+   
+delete 
+   from customer 
+
+   where id = 2;
+
+
+
+  select * 
+
+   from customer;
+
+
+
+  select *
+from orders;
+
+
+
+  select * 
+from payments;
+
+
+
+  select max(amount) 
+from payments;
+
+
+
+  select * 
+from customer 
+order by country;
+
+
+
+  select * 
+from products;
+
+
+  select * 
+
+  from products 
+
+  where buy_price between 100 and 600;
+
+
+  select * 
+
+  from customer 
+
+  where country ='Germany' and city ='Berlin';
+
+
+
+   select * 
+
+   from customer 
+
+   where (city = 'Cape Town' or city = 'Durban');
+
+
+
+  select * 
+
+  from products 
+
+  where buy_price > 500;
+
+select sum(amount) 
+from payments;
+
+
+
+  select status , count(*) 
+
+  from orders 
+group by status;
+
+
+  
+select avg(buy_price),
+avg(buy_price*12) 
+
+  from products;
+
+
+  
+select * 
+
+  from products 
+
+  where description = 'Turnable front wheels, steering function';
+
+
+
+
+
+
+
+
+
+
+
+
